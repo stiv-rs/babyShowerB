@@ -1,136 +1,89 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
 
-<head>
-    <meta charset="UTF-8" />
-    <title>Lista de Regalos Baby Shower de Bianca</title>
-    <!-- Estilos mínimos de ejemplo -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/11.2.0/firebase-app-compat.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/11.2.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/11.2.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/11.2.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/11.2.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/11.2.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/11.2.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/11.2.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/11.2.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/11.2.0/firebase-performance-compat.js"></script>
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
 
-        .gift-card {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        .gift-card img {
-            max-width: 150px;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .taken {
-            background-color: #f8d7da;
-        }
-
-        button {
-            background-color: #008CBA;
-            border: none;
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        button:disabled {
-            background-color: grey;
-            cursor: not-allowed;
-        }
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
     </style>
-</head>
-
-<body>
-    <h1>Lista de Regalos</h1>
-    <div id="gift-list"></div>
-
-    <!-- Incluimos los scripts de Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+  </head>
+  <body>
+    <div id="message">
+      <h2>Welcome</h2>
+      <h1>Firebase Hosting Setup Complete</h1>
+      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
+      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    </div>
+    <p id="load">Firebase SDK Loading&hellip;</p>
 
     <script>
-        // TODO: Pega aquí tu configuración de Firebase (firebaseConfig, etc.)
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
+      document.addEventListener('DOMContentLoaded', function() {
+        const loadEl = document.querySelector('#load');
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // The Firebase SDK is initialized and available here!
+        //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.firestore().doc('/foo/bar').get().then(() => { });
+        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
+        // firebase.messaging().requestPermission().then(() => { });
+        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        // firebase.analytics(); // call to activate
+        // firebase.analytics().logEvent('tutorial_completed');
+        // firebase.performance(); // call to activate
+        //
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAWoPF5xHwBF1dGnD_fKO9Nv0Nhri8bq1I",
-            authDomain: "lista-de-regalos-shower.firebaseapp.com",
-            projectId: "lista-de-regalos-shower",
-            storageBucket: "lista-de-regalos-shower.firebasestorage.app",
-            messagingSenderId: "53706984936",
-            appId: "1:53706984936:web:8454e512464caeed99a85d"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-
-        // Referencia a la colección "gifts"
-        const giftsRef = db.collection("gifts");
-
-        // Seleccionamos el contenedor donde mostraremos la lista
-        const giftList = document.getElementById("gift-list");
-
-        // Función para renderizar los regalos en pantalla
-        function renderGifts(gifts) {
-            giftList.innerHTML = ""; // Limpia la lista
-
-            gifts.forEach((doc) => {
-                const gift = doc.data();
-                const giftId = doc.id; // ID del documento
-                const div = document.createElement("div");
-                div.classList.add("gift-card");
-                if (gift.status === "taken") {
-                    div.classList.add("taken");
-                }
-
-                // Estructura de cada tarjeta de regalo
-                div.innerHTML = `
-            <h2>${gift.name}</h2>
-            ${gift.imageUrl ? `<img src="${gift.imageUrl}" alt="${gift.name}"/>` : ""}
-            <p>${gift.description || ""}</p>
-            <button id="btn-${giftId}" ${gift.status === "taken" ? "disabled" : ""}>
-              ${gift.status === "taken" ? "Ya está seleccionado" : "¡Lo quiero regalar!"}
-            </button>
-          `;
-
-                // Escuchar click en el botón
-                const button = div.querySelector(`#btn-${giftId}`);
-                button.addEventListener("click", () => {
-                    reserveGift(giftId);
-                });
-
-                giftList.appendChild(div);
-            });
+        try {
+          let app = firebase.app();
+          let features = [
+            'auth', 
+            'database', 
+            'firestore',
+            'functions',
+            'messaging', 
+            'storage', 
+            'analytics', 
+            'remoteConfig',
+            'performance',
+          ].filter(feature => typeof app[feature] === 'function');
+          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
+        } catch (e) {
+          console.error(e);
+          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
         }
-
-        // Función para marcar un regalo como "taken"
-        function reserveGift(giftId) {
-            giftsRef.doc(giftId).update({
-                status: "taken"
-            }).then(() => {
-                console.log("Regalo reservado");
-            }).catch((error) => {
-                console.error("Error al reservar regalo:", error);
-            });
-        }
-
-        // Obtener la lista de regalos en tiempo real
-        giftsRef.onSnapshot((snapshot) => {
-            const docs = snapshot.docs;
-            renderGifts(docs);
-        }, (error) => {
-            console.error("Error al obtener los documentos:", error);
-        });
+      });
     </script>
-</body>
-
+  </body>
 </html>

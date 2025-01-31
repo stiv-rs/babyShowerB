@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "/home/stiv/Documents/repos/babyShowerB",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
