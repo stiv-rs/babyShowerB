@@ -1,13 +1,23 @@
 {
   "hosting": {
-    "public": "/home/stiv/Documents/repos/babyShowerB",
+    "public": "/",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ]
   },
-  "remoteconfig": {
-    "template": "remoteconfig.template.json"
+  "emulators": {
+    "firestore": {
+      "port": 8080
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "ui": {
+      "enabled": true,
+      "port": 8080
+    },
+    "singleProjectMode": true
   }
 }
