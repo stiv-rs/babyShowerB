@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Lista de Regalos Baby Shower de Bianca</title>
+    <title>Princesa Bianca</title>
     <!-- Estilos mínimos de ejemplo -->
     <style>
         body {
@@ -47,20 +47,15 @@
 </head>
 
 <body>
-    <h1>Lista de Regalos de Bianchis</h1>
+    <h1>Lista de Regalos para Bianca </h1>
     <div id="gift-list"></div>
 
     <!-- Incluimos los scripts de Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js"></script>
 
     <script>
         // TODO: Pega aquí tu configuración de Firebase (firebaseConfig, etc.)
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-
-        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAWoPF5xHwBF1dGnD_fKO9Nv0Nhri8bq1I",
             authDomain: "lista-de-regalos-shower.firebaseapp.com",
@@ -72,6 +67,9 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        console.log("¡Firebase inicializado!", app);
 
         // Referencia a la colección "gifts"
         const giftsRef = db.collection("gifts");
