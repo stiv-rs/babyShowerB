@@ -176,7 +176,9 @@
             doc,
             onSnapshot,
             updateDoc,
-            setDoc
+            setDoc,
+            getDocs,
+            runTransaction
         } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -229,26 +231,43 @@
             const user = auth.currentUser;
             if (!user) return alert("Debes iniciar sesión primero");
 
+            // Verificar si ya tiene un regalo seleccionado
+            const userGiftsRef = collection(db, "users", user.uid, "selectedGifts");
+            const userGiftsSnap = await getDocs(userGiftsRef);
+
+            if (!userGiftsSnap.empty) {
+                alert("❌ ¡Ya has seleccionado un regalo! Solo puedes elegir uno.");
+                return;
+            }
+
             const userName = prompt("Ingresa tu nombre") || localStorage.getItem('guestName');
-            if (userName) localStorage.setItem('guestName', userName);
             if (!userName) return;
+            localStorage.setItem('guestName', userName);
 
             try {
-                await updateDoc(doc(db, "gifts", giftId), {
-                    status: "taken",
-                    selectedBy: {
-                        uid: user.uid,
-                        name: userName
-                    }
-                });
+                // Verificación adicional con transacción
+                const giftDocRef = doc(db, "gifts", giftId);
 
-                await setDoc(doc(db, "users", user.uid, "selectedGifts", giftId), {
-                    selectedAt: new Date()
+                await runTransaction(db, async (transaction) => {
+                    const giftDoc = await transaction.get(giftDocRef);
+                    if (giftDoc.data().status === "taken") throw "¡Este regalo ya fue tomado!";
+
+                    transaction.update(giftDocRef, {
+                        status: "taken",
+                        selectedBy: {
+                            uid: user.uid,
+                            name: userName
+                        }
+                    });
+
+                    transaction.set(doc(db, "users", user.uid, "selectedGifts", giftId), {
+                        selectedAt: new Date()
+                    });
                 });
 
             } catch (error) {
                 console.error("Error:", error);
-                alert("¡Ya has seleccionado un regalo! Solo puedes elegir uno 🎁");
+                alert(error.message || "Error al reservar el regalo");
             }
         }
 
