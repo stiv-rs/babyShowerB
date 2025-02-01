@@ -231,27 +231,33 @@
             const user = auth.currentUser;
             if (!user) return alert("Debes iniciar sesión primero");
 
-            // Verificar si ya tiene un regalo seleccionado
-            const userGiftsRef = collection(db, "users", user.uid, "selectedGifts");
-            const userGiftsSnap = await getDocs(userGiftsRef);
-
-            if (!userGiftsSnap.empty) {
-                alert("❌ ¡Ya has seleccionado un regalo! Solo puedes elegir uno.");
-                return;
-            }
-
-            const userName = prompt("Ingresa tu nombre") || localStorage.getItem('guestName');
-            if (!userName) return;
-            localStorage.setItem('guestName', userName);
-
             try {
-                // Verificación adicional con transacción
-                const giftDocRef = doc(db, "gifts", giftId);
+                // Verificar si YA tiene un regalo seleccionado
+                const userGiftsRef = collection(db, "users", user.uid, "selectedGifts");
+                const userGiftsSnap = await getDocs(userGiftsRef);
 
+                if (!userGiftsSnap.empty) {
+                    alert("❌ ¡Ya has seleccionado un regalo! Solo puedes elegir uno.");
+                    return;
+                }
+
+                // Pedir nombre (con persistencia)
+                const storedName = localStorage.getItem('guestName');
+                const userName = prompt(storedName ? `Tu nombre (Enter para usar ${storedName}):` : "Ingresa tu nombre:") || storedName;
+                if (!userName) return;
+                localStorage.setItem('guestName', userName);
+
+                // Usar transacción para atomicidad
                 await runTransaction(db, async (transaction) => {
+                    const giftDocRef = doc(db, "gifts", giftId);
                     const giftDoc = await transaction.get(giftDocRef);
-                    if (giftDoc.data().status === "taken") throw "¡Este regalo ya fue tomado!";
 
+                    // Validar si el regalo está disponible
+                    if (giftDoc.data().status === "taken") {
+                        throw new Error("¡Este regalo ya fue reservado!");
+                    }
+
+                    // Actualizar regalo
                     transaction.update(giftDocRef, {
                         status: "taken",
                         selectedBy: {
@@ -260,6 +266,7 @@
                         }
                     });
 
+                    // Registrar selección
                     transaction.set(doc(db, "users", user.uid, "selectedGifts", giftId), {
                         selectedAt: new Date()
                     });
