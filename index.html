@@ -229,35 +229,33 @@
 
         async function reserveGift(giftId) {
             const user = auth.currentUser;
-            if (!user) return alert("Debes iniciar sesión primero");
+            if (!user) return alert("❌ Debes iniciar sesión primero");
 
             try {
-                // Verificar si YA tiene un regalo seleccionado
+                // Verificar si ya tiene un regalo seleccionado
                 const userGiftsRef = collection(db, "users", user.uid, "selectedGifts");
                 const userGiftsSnap = await getDocs(userGiftsRef);
 
                 if (!userGiftsSnap.empty) {
-                    alert("❌ ¡Ya has seleccionado un regalo! Solo puedes elegir uno.");
+                    alert("¡Ya has seleccionado un regalo! Solo puedes elegir uno 🎁");
                     return;
                 }
 
-                // Pedir nombre (con persistencia)
+                // Obtener nombre del usuario
                 const storedName = localStorage.getItem('guestName');
-                const userName = prompt(storedName ? `Tu nombre (Enter para usar ${storedName}):` : "Ingresa tu nombre:") || storedName;
+                const userName = prompt(storedName ? `Tu nombre (Enter para usar "${storedName}")` : "Ingresa tu nombre:") || storedName;
                 if (!userName) return;
                 localStorage.setItem('guestName', userName);
 
-                // Usar transacción para atomicidad
+                // Transacción para atomicidad
                 await runTransaction(db, async (transaction) => {
                     const giftDocRef = doc(db, "gifts", giftId);
                     const giftDoc = await transaction.get(giftDocRef);
 
-                    // Validar si el regalo está disponible
                     if (giftDoc.data().status === "taken") {
-                        throw new Error("¡Este regalo ya fue reservado!");
+                        throw new Error("¡Este regalo ya está reservado!");
                     }
 
-                    // Actualizar regalo
                     transaction.update(giftDocRef, {
                         status: "taken",
                         selectedBy: {
@@ -266,7 +264,6 @@
                         }
                     });
 
-                    // Registrar selección
                     transaction.set(doc(db, "users", user.uid, "selectedGifts", giftId), {
                         selectedAt: new Date()
                     });
