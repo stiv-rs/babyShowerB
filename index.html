@@ -229,41 +229,41 @@
 
         async function reserveGift(giftId) {
             const user = auth.currentUser;
-            if (!user) return alert("❌ Debes iniciar sesión primero");
+            if (!user) return alert("Error: Usuario no autenticado 🔐");
 
             try {
-                // Verificar si ya tiene un regalo seleccionado
+                // Verificar si YA tiene un regalo
                 const userGiftsRef = collection(db, "users", user.uid, "selectedGifts");
                 const userGiftsSnap = await getDocs(userGiftsRef);
-
                 if (!userGiftsSnap.empty) {
-                    alert("¡Ya has seleccionado un regalo! Solo puedes elegir uno 🎁");
+                    alert("¡Solo puedes seleccionar un regalo! 🎁");
                     return;
                 }
 
                 // Obtener nombre del usuario
-                const storedName = localStorage.getItem('guestName');
-                const userName = prompt(storedName ? `Tu nombre (Enter para usar "${storedName}")` : "Ingresa tu nombre:") || storedName;
-                if (!userName) return;
+                const userName = prompt("Ingresa tu nombre:") || localStorage.getItem('guestName') || "Invitado";
                 localStorage.setItem('guestName', userName);
 
-                // Transacción para atomicidad
+                // Transacción atómica
                 await runTransaction(db, async (transaction) => {
                     const giftDocRef = doc(db, "gifts", giftId);
                     const giftDoc = await transaction.get(giftDocRef);
 
+                    // Validar si el regalo está disponible
                     if (giftDoc.data().status === "taken") {
-                        throw new Error("¡Este regalo ya está reservado!");
+                        throw new Error("❌ Este regalo ya fue reservado");
                     }
 
+                    // Actualizar el regalo
                     transaction.update(giftDocRef, {
                         status: "taken",
                         selectedBy: {
-                            uid: user.uid,
+                            uid: user.uid, // ¡Asegúrate de incluir esto!
                             name: userName
                         }
                     });
 
+                    // Registrar en subcolección
                     transaction.set(doc(db, "users", user.uid, "selectedGifts", giftId), {
                         selectedAt: new Date()
                     });
@@ -271,7 +271,7 @@
 
             } catch (error) {
                 console.error("Error:", error);
-                alert(error.message || "Error al reservar el regalo");
+                alert(error.message || "Error de permisos. Contacta al administrador.");
             }
         }
 
