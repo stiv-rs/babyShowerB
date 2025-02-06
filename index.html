@@ -1,285 +1,237 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>Princesa Bianca</title>
-    <link href="https://fonts.googleapis.com/css2?family=Neonderthaw&family=Orbitron:wght@400;700&display=swap"
-        rel="stylesheet">
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👶</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Neonderthaw&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👶</text></svg>">
     <style>
-        :root {
-            --neon-cyan: #0ff;
-            --neon-pink: #ff00ff;
-            --neon-purple: #9d00ff;
-            --dark-bg: #0c081a;
-        }
+      :root {
+        --neon-cyan: #0ff;
+        --neon-pink: #ff00ff;
+        --neon-purple: #9d00ff;
+        --dark-bg: #0a0812;
+      }
 
-        body {
-            font-family: 'Orbitron', sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(45deg, #0a0812, #1a1725);
-            color: #fff;
-            min-height: 100vh;
-            position: relative;
-        }
+      body {
+        font-family: 'Orbitron', sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(45deg, #0a0812, #1a1725);
+        color: #fff;
+        min-height: 100vh;
+        position: relative;
+      }
 
-        h1 {
-            font-family: 'Neonderthaw', cursive;
-            font-size: 3.5em;
-            text-align: center;
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink),
-                0 0 20px var(--neon-pink),
-                0 0 30px var(--neon-pink);
-            margin: 30px 0;
-            animation: pulse 2s infinite;
-        }
+      h1 {
+        font-family: 'Neonderthaw', cursive;
+        font-size: 3.5em;
+        text-align: center;
+        color: var(--neon-pink);
+        text-shadow: 0 0 10px var(--neon-pink),
+                     0 0 20px var(--neon-pink),
+                     0 0 30px var(--neon-pink);
+        margin: 30px 0;
+        animation: pulse 2s infinite;
+      }
 
-        .gift-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
+      .gift-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px;
+      }
 
-        .gift-card {
-            background: rgba(10, 8, 18, 0.8);
-            border-radius: 15px;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            border: 2px solid transparent;
-            animation: borderGlow 3s infinite alternate;
-        }
+      .gift-card {
+        background: rgba(10, 8, 18, 0.8);
+        border-radius: 15px;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        border: 2px solid transparent;
+        animation: borderGlow 3s infinite alternate;
+      }
 
-        .gift-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
-            z-index: -1;
-            animation: rotate 4s linear infinite;
-        }
+      .gift-card::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+        z-index: -1;
+        animation: rotate 4s linear infinite;
+      }
 
-        .gift-card.taken::after {
-            content: '🎀 RESERVADO 🎀';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-10deg);
-            color: var(--neon-purple);
-            font-size: 1.3em;
-            text-shadow: 0 0 10px var(--neon-pink);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            z-index: 2;
-        }
+      .gift-card.taken::after {
+        content: '🎀 RESERVADO 🎀';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-10deg);
+        color: var(--neon-purple);
+        font-size: 1.3em;
+        text-shadow: 0 0 10px var(--neon-pink);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        z-index: 2;
+      }
 
-        .gift-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin: 10px 0;
-            border: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 10px var(--neon-cyan);
-        }
+      .gift-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin: 10px 0;
+        border: 2px solid var(--neon-cyan);
+        box-shadow: 0 0 10px var(--neon-cyan);
+      }
 
-        button {
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
-            border: none;
-            color: white;
-            padding: 12px 25px;
-            cursor: pointer;
-            border-radius: 25px;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-        }
+      button {
+        background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+        border: none;
+        color: white;
+        padding: 12px 25px;
+        cursor: pointer;
+        border-radius: 25px;
+        font-family: 'Orbitron', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+      }
 
-        .baby-icon {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-size: 50px;
-            animation: crawl 2s infinite alternate;
-            cursor: pointer;
-            z-index: 1000;
-        }
+      .baby-icon {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        font-size: 50px;
+        animation: crawl 2s infinite alternate;
+        cursor: pointer;
+        z-index: 1000;
+      }
 
-        @keyframes crawl {
-            0% {
-                transform: translateX(0) rotate(0deg);
-            }
+      @keyframes crawl {
+        0% { transform: translateX(0) rotate(0deg); }
+        100% { transform: translateX(-30px) rotate(-15deg); }
+      }
 
-            100% {
-                transform: translateX(-30px) rotate(-15deg);
-            }
-        }
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
 
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes borderGlow {
-            0% {
-                border-color: var(--neon-cyan);
-            }
-
-            50% {
-                border-color: var(--neon-purple);
-            }
-
-            100% {
-                border-color: var(--neon-pink);
-            }
-        }
+      @keyframes borderGlow {
+        0% { border-color: var(--neon-cyan); }
+        50% { border-color: var(--neon-purple); }
+        100% { border-color: var(--neon-pink); }
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <h1>✨ Lista de Regalos Bianca ✨</h1>
+  <body>
+    <h1>✨ Lista Mágica de Bianca ✨</h1>
     <div class="baby-icon">👶</div>
     <div class="gift-list" id="gift-list"></div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-        import {
-            getAuth,
-            signInAnonymously
-        } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
-        import {
-            getFirestore,
-            collection,
-            doc,
-            onSnapshot,
-            updateDoc,
-            setDoc,
-            getDocs,
-            runTransaction
-        } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+      import { 
+        getAuth, 
+        signInAnonymously 
+      } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+      import { 
+        getFirestore, 
+        collection, 
+        doc, 
+        onSnapshot, 
+        updateDoc,
+        setDoc
+      } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAWoPF5xHwBF1dGnD_fKO9Nv0Nhri8bq1I",
-            authDomain: "lista-de-regalos-shower.firebaseapp.com",
-            projectId: "lista-de-regalos-shower",
-            storageBucket: "lista-de-regalos-shower.appspot.com",
-            messagingSenderId: "53706984936",
-            appId: "1:53706984936:web:8454e512464caeed99a85d"
-        };
+      const firebaseConfig = {
+        apiKey: "AIzaSyAWoPF5xHwBF1dGnD_fKO9Nv0Nhri8bq1I",
+        authDomain: "lista-de-regalos-shower.firebaseapp.com",
+        projectId: "lista-de-regalos-shower",
+        storageBucket: "lista-de-regalos-shower.appspot.com",
+        messagingSenderId: "53706984936",
+        appId: "1:53706984936:web:8454e512464caeed99a85d"
+      };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const giftsRef = collection(db, "gifts");
-        const giftList = document.getElementById("gift-list");
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+      const giftsRef = collection(db, "gifts");
+      const giftList = document.getElementById("gift-list");
 
-        // Autenticación anónima
-        signInAnonymously(auth).catch((error) => {
-            console.error("Error de autenticación:", error);
-        });
+      // Autenticación anónima
+      signInAnonymously(auth).catch((error) => {
+        console.error("Error de autenticación:", error);
+      });
 
-        function renderGifts(snapshotDocs) {
-            giftList.innerHTML = "";
-            snapshotDocs.forEach((docSnap) => {
-                const gift = docSnap.data();
-                const giftId = docSnap.id;
-                const div = document.createElement("div");
-                div.classList.add("gift-card");
-                if (gift.status === "taken") div.classList.add("taken");
-
-                div.innerHTML = `
+      function renderGifts(snapshotDocs) {
+        giftList.innerHTML = "";
+        snapshotDocs.forEach((docSnap) => {
+          const gift = docSnap.data();
+          const giftId = docSnap.id;
+          const div = document.createElement("div");
+          div.classList.add("gift-card");
+          if (gift.status === "taken") div.classList.add("taken");
+          
+          div.innerHTML = `
             <h2>${gift.name}</h2>
             ${gift.imageUrl ? `<img src="${gift.imageUrl}" alt="${gift.name}"/>` : ""}
             <p>${gift.description || ""}</p>
             <button id="btn-${giftId}" ${gift.status === "taken" ? "disabled" : ""}>
-              ${gift.status === "taken"
-                        ? `Reservado por: ${gift.selectedBy?.name || "Alguien"} 🎀`
-                        : "¡Quiero regalarlo!"}
+              ${gift.status === "taken" 
+                ? `Reservado por: ${gift.selectedBy?.name || "Alguien"} 🎀` 
+                : "¡Quiero regalarlo!"}
             </button>
           `;
 
-                const button = div.querySelector(`#btn-${giftId}`);
-                if (button) button.addEventListener("click", () => reserveGift(giftId));
-                giftList.appendChild(div);
-            });
-        }
+          const button = div.querySelector(`#btn-${giftId}`);
+          if (button) button.addEventListener("click", () => reserveGift(giftId));
+          giftList.appendChild(div);
+        });
+      }
 
-        async function reserveGift(giftId) {
-            const user = auth.currentUser;
-            if (!user) return alert("Error: Usuario no autenticado 🔐");
+      async function reserveGift(giftId) {
+        const user = auth.currentUser;
+        if (!user) return alert("Debes iniciar sesión primero");
 
-            try {
-                // Verificar si YA tiene un regalo
-                const userGiftsRef = collection(db, "users", user.uid, "selectedGifts");
-                const userGiftsSnap = await getDocs(userGiftsRef);
-                if (!userGiftsSnap.empty) {
-                    alert("¡Solo puedes seleccionar un regalo! 🎁");
-                    return;
-                }
+        const userName = prompt("¡Por favor ingresa tu nombre para reservar este regalo!");
+        if (!userName) return;
 
-                // Obtener nombre del usuario
-                const userName = prompt("Ingresa tu nombre:") || localStorage.getItem('guestName') || "Invitado";
-                localStorage.setItem('guestName', userName);
-
-                // Transacción atómica
-                await runTransaction(db, async (transaction) => {
-                    const giftDocRef = doc(db, "gifts", giftId);
-                    const giftDoc = await transaction.get(giftDocRef);
-
-                    // Validar si el regalo está disponible
-                    if (giftDoc.data().status === "taken") {
-                        throw new Error("❌ Este regalo ya fue reservado");
-                    }
-
-                    // Actualizar el regalo
-                    transaction.update(giftDocRef, {
-                        status: "taken",
-                        selectedBy: {
-                            uid: user.uid, // ¡Asegúrate de incluir esto!
-                            name: userName
-                        }
-                    });
-
-                    // Registrar en subcolección
-                    transaction.set(doc(db, "users", user.uid, "selectedGifts", giftId), {
-                        selectedAt: new Date()
-                    });
-                });
-
-            } catch (error) {
-                console.error("Error:", error);
-                alert(error.message || "Error de permisos. Contacta al administrador.");
+        try {
+          await updateDoc(doc(db, "gifts", giftId), {
+            status: "taken",
+            selectedBy: {
+              uid: user.uid,
+              name: userName
             }
+          });
+
+          await setDoc(doc(db, "users", user.uid, "selectedGifts", giftId), {
+            selectedAt: new Date()
+          });
+
+        } catch (error) {
+          console.error("Error:", error);
+          alert("¡Ya has seleccionado un regalo! Solo puedes elegir uno 🎁");
         }
+      }
 
-        onSnapshot(giftsRef,
-            (snapshot) => renderGifts(snapshot.docs),
-            (error) => console.error("Error:", error)
-        );
+      onSnapshot(giftsRef, 
+        (snapshot) => renderGifts(snapshot.docs),
+        (error) => console.error("Error:", error)
+      );
     </script>
-</body>
-
+  </body>
 </html>
