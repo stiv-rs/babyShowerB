@@ -38,7 +38,8 @@
             margin: 30px 0;
             animation: pulse 2s infinite;
         }
-        p{
+
+        p {
             font-size: 0.8em;
         }
 
@@ -58,6 +59,9 @@
             transition: transform 0.3s ease;
             border: 2px solid transparent;
             animation: borderGlow 3s infinite alternate;
+            display: flex;
+            flex-direction: column;
+            min-height: 400px;
         }
 
         .gift-card::before {
@@ -92,12 +96,23 @@
         .gift-card img {
             transition: all 0.3s ease;
             width: 100%;
-            height: 180px;
+            height: 300px;
             object-fit: cover;
             border-radius: 10px;
             margin: 10px 0;
             border: 2px solid var(--neon-cyan);
             box-shadow: 0 0 10px var(--neon-cyan);
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .gift-card {
+                min-height: auto;
+            }
+
+            .gift-card img {
+                height: 150px;
+            }
         }
 
         .gift-card.taken img {
@@ -290,11 +305,14 @@
 <body>
     <h1>✨ Lista de regalos Bianca ✨</h1>
     <p> <b>¡Holiiiii...!</b> 🎉 </p>
-    <p>Por favor, revisa con mucho cuidado la lista de regalos y asegúrate de elegir un solo regalo por invitado, porque una vez seleccionado, ¡ya no hay vuelta atrás! 😅</p>
-    <p>Y no olvides poner tu nombre y apellido al momento de hacer la reserva. Además, si quieres darle un toque especial a tu regalo, ¡puedes complementarlo con pañitos o pañales en etapas 0, 1, 2 y 3! Recibimos con mucho amor todo lo que quieras aportar. ¡Gracias por ser parte de este momento tan especial! 🎁✨</p>
+    <p>Por favor, revisa con mucho cuidado la lista de regalos y asegúrate de elegir un solo regalo por invitado, porque
+        una vez seleccionado, ¡ya no hay vuelta atrás! 😅</p>
+    <p>Y no olvides poner tu nombre y apellido al momento de hacer la reserva. Además, si quieres darle un toque
+        especial a tu regalo, ¡puedes complementarlo con pañitos o pañales en etapas 0, 1, 2 y 3! Recibimos con mucho
+        amor todo lo que quieras aportar. ¡Gracias por ser parte de este momento tan especial! 🎁✨</p>
     <div class="baby-icon">👶</div>
     <div class="gift-list" id="gift-list"></div>
-    
+
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
